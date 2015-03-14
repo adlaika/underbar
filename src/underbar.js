@@ -102,6 +102,13 @@
 
   // Produce a duplicate-free version of the array.
   _.uniq = function(array) {
+    var uniqs = [];
+    for (var i = 0; i < array.length; i++){
+      if (_.indexOf(uniqs, array[i]) === -1) {
+        uniqs.push(array[i]);
+      }
+    }
+    return uniqs;
   };
 
 
