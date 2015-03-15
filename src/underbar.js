@@ -163,7 +163,7 @@
   //   }); // should be 5, regardless of the iterator function passed in
   //          No accumulator is given so the first element is used.
   _.reduce = function(collection, iterator, accumulator) {
-    _.each(collection, function(elem, index){
+    _.each(collection, function(elem){
       if (accumulator !== undefined) {
         accumulator = iterator(accumulator, elem);
       } else {
@@ -189,6 +189,16 @@
   // Determine whether all of the elements match a truth test.
   _.every = function(collection, iterator) {
     // TIP: Try re-using reduce() here.
+    if (!iterator) { iterator = _.identity; }
+    return _.reduce(collection, function(passed, elem) {
+      if (!passed) {
+        return false;
+      }
+      if (!iterator(elem)) {
+        return false;
+      }
+      return true;
+    }, true);
   };
 
   // Determine whether any of the elements pass a truth test. If no iterator is
