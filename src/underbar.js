@@ -205,17 +205,11 @@
   // provided, provide a default one
   _.some = function(collection, iterator) {
     // TIP: There's a very clever way to re-use every() here.
-    // ...and I just spent 5 hours trying to figure out what it is. :(
     if (iterator === undefined) { iterator = _.identity; }
-    return _.reduce(collection, function(passed, elem) {
-      if (passed) {
-        return true;
-      }
-      if (iterator(elem)) {
-        return true;
-      }
-      return false;
-    }, false);
+    return !_.every(collection, function(item){
+      return !iterator(item);
+    });
+    return false;
   };
 
 
