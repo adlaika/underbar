@@ -305,12 +305,12 @@
     var cache = {};
 
     return function() {
-      var result = JSON.stringify(Array.prototype.slice.call(arguments));
-      if (result in cache) {
-        return cache[result];
+      var arg = Array.prototype.slice.call(arguments);
+      if (arg in cache) {
+        return cache[arg];
       } else {
-        cache[result] = func.apply(this, arguments);
-        return cache[result];
+        cache[arg] = func.apply(this, arguments);
+        return cache[arg];
       }
     };
   };
@@ -322,6 +322,10 @@
   // parameter. For example _.delay(someFunction, 500, 'a', 'b') will
   // call someFunction('a', 'b') after 500ms
   _.delay = function(func, wait) {
+    var args = Array.prototype.slice.call(arguments, 2);
+    setTimeout(function() {
+      func.apply(this, args);
+    }, wait);
   };
 
 
