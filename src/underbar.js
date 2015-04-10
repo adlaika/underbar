@@ -123,7 +123,7 @@
     // like each(), but in addition to running the operation on all
     // the members, it also maintains an array of results.
     var results = [];
-    _.each(collection, function (elem, index) {
+    _.each(collection, function (elem) {
       results.push(iterator(elem));
     });
     return results;
@@ -218,7 +218,6 @@
     return !_.every(collection, function (item) {
       return !iterator(item);
     });
-    return false;
   };
 
 
@@ -240,7 +239,7 @@
   //   }, {
   //     bla: "even more stuff"
   //   }); // obj1 now contains key1, key2, key3 and bla
-  _.extend = function (obj) {
+  _.extend = function () {
     var to = arguments[0];
     var from = Array.prototype.slice.call(arguments, 1);
 
@@ -255,7 +254,7 @@
 
   // Like extend, but doesn't ever overwrite a key that already
   // exists in obj
-  _.defaults = function (obj) {
+  _.defaults = function () {
     var to = arguments[0];
     var from = Array.prototype.slice.call(arguments, 1);
 
