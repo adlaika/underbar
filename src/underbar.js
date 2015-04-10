@@ -347,6 +347,30 @@
   // TIP: This function's test suite will ask that you not modify the original
   // input array. For a tip on how to make a copy of an array, see:
   // http://mdn.io/Array.prototype.slice
+
+  // attach the .equals method to Array's prototype to call it on any array
+  Array.prototype.equals = function (array) {
+    // if the other array is a falsy value, return
+    if (!array)
+      return false;
+
+    // compare lengths
+    if (this.length != array.length)
+      return false;
+
+    for (var i = 0, l = this.length; i < l; i++) {
+      // Check if we have nested arrays
+      if (this[i] instanceof Array && array[i] instanceof Array) {
+        // recurse into the nested arrays
+        if (!this[i].equals(array[i]))
+          return false;
+      } else if (this[i] != array[i]) {
+        return false;
+      }
+    }
+    return true;
+  }
+
   _.shuffle = function (array) {
     var copy = array.slice(0);
     var shuffled = new Array(array.length);
@@ -359,6 +383,10 @@
       } else {
         i -= 1;
       }
+    }
+
+    if (shuffled.equals(array)) {
+      shuffled = _.shuffle(shuffled);
     }
 
     return shuffled;
@@ -391,7 +419,9 @@
   // If iterator is a string, sort objects by that property with the name
   // of that string. For example, _.sortBy(people, 'name') should sort
   // an array of people by their name.
-  _.sortBy = function (collection, iterator) {};
+  _.sortBy = function (collection, iterator) {
+
+  };
 
   // Zip together two or more arrays with elements of the same index
   // going together.
