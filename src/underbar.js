@@ -455,7 +455,48 @@
   //
   // Example:
   // _.zip(['a','b','c','d'], [1,2,3]) returns [['a',1], ['b',2], ['c',3], ['d',undefined]]
-  _.zip = function () {};
+  _.zip = function () {
+    //get arguments in array form
+    var args = [];
+    for (var i = 0; i < arguments.length; i++) {
+      args.push(arguments[i]);
+    }
+
+    //initialize vars
+    var zipped = [];
+    var longest = [];
+
+    //get length of longest array in args
+    _.each(args, function (arr) {
+      if (arr.length > longest.length) {
+        longest = arr;
+      }
+    });
+    longest = longest.length;
+
+    //iterate over each array and add it to correct subarray of zipped
+    _.each(args, function (arr) {
+      _.each(arr, function (value, idx) {
+        if (zipped[idx] === undefined) {
+          zipped[idx] = [value];
+        } else {
+          zipped[idx].push(value);
+        }
+      });
+    });
+
+    //check that all zipped subarrays are the same length as longest
+    //if not, fill in with undefined
+    _.each(zipped, function (subarray) {
+      if (subarray.length < longest) {
+        for (var i = 0; i < longest - subarray.length; i++) {
+          subarray.push(undefined);
+        }
+      }
+    });
+
+    return zipped;
+  };
 
   // Takes a multidimensional array and converts it to a one-dimensional array.
   // The new array should contain all elements of the multidimensional array.
