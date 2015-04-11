@@ -351,25 +351,28 @@
   // attach the .equals method to Array's prototype to call it on any array
   Array.prototype.equals = function (array) {
     // if the other array is a falsy value, return
-    if (!array)
+    if (!array) {
       return false;
+    }
 
     // compare lengths
-    if (this.length != array.length)
+    if (this.length !== array.length) {
       return false;
+    }
 
     for (var i = 0, l = this.length; i < l; i++) {
       // Check if we have nested arrays
       if (this[i] instanceof Array && array[i] instanceof Array) {
         // recurse into the nested arrays
-        if (!this[i].equals(array[i]))
+        if (!this[i].equals(array[i])) {
           return false;
-      } else if (this[i] != array[i]) {
+        }
+      } else if (this[i] !== array[i]) {
         return false;
       }
     }
     return true;
-  }
+  };
 
   _.shuffle = function (array) {
     var copy = array.slice(0);
@@ -411,7 +414,6 @@
       }
       results.push(functionOrKey.apply(value, args));
     });
-    console.log('results: ' + results);
     return results;
   };
 
@@ -420,7 +422,32 @@
   // of that string. For example, _.sortBy(people, 'name') should sort
   // an array of people by their name.
   _.sortBy = function (collection, iterator) {
-
+    if (typeof iterator === 'string') {
+      collection.sort(function (a, b) {
+        if (a[iterator] < b[iterator]) {
+          return -1;
+        }
+        if (a[iterator] > b[iterator]) {
+          return 1;
+        }
+        if (a[iterator] === b[iterator]) {
+          return 0;
+        }
+      });
+    } else if (iterator instanceof Function) {
+      collection.sort(function (a, b) {
+        if (iterator(a) < iterator(b)) {
+          return -1;
+        }
+        if (iterator(a) > iterator(b)) {
+          return 1;
+        }
+        if (iterator(a) === iterator(b)) {
+          return 0;
+        }
+      });
+    }
+    return collection;
   };
 
   // Zip together two or more arrays with elements of the same index
