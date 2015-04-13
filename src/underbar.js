@@ -502,11 +502,44 @@
   // The new array should contain all elements of the multidimensional array.
   //
   // Hint: Use Array.isArray to check if something is an array
-  _.flatten = function (nestedArray, result) {};
+  _.flatten = function (nestedArray, result) {
+    result = result || [];
+    _.each(nestedArray, function (value) {
+      if (Array.isArray(value)) {
+        return _.flatten(value, result);
+      } else {
+        result.push(value);
+      }
+    });
+    return result;
+  };
 
   // Takes an arbitrary number of arrays and produces an array that contains
   // every item shared between all the passed-in arrays.
-  _.intersection = function () {};
+  _.intersection = function () {
+    //get arguments in array form
+    var args = [];
+    for (var i = 0; i < arguments.length; i++) {
+      args.push(arguments[i]);
+    }
+
+    var result = [];
+    //flatten arrays to make comparison easier
+    var flatArgs = _.flatten(args);
+    console.log('flatten args: ' + flatArgs);
+
+    //compare each value with every following value
+    //add to results if true
+    _.each(flatArgs, function (value, idx) {
+      for (var i = idx + 1; i < flatArgs.length; i++) {
+        if (flatArgs[i] === value) {
+          result.push(value);
+        }
+      }
+    });
+
+    return result;
+  };
 
   // Take the difference between one array and a number of other arrays.
   // Only the elements present in just the first array will remain.
