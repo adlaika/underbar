@@ -526,7 +526,6 @@
     var result = [];
     //flatten arrays to make comparison easier
     var flatArgs = _.flatten(args);
-    console.log('flatten args: ' + flatArgs);
 
     //compare each value with every following value
     //add to results if true
@@ -543,7 +542,31 @@
 
   // Take the difference between one array and a number of other arrays.
   // Only the elements present in just the first array will remain.
-  _.difference = function (array) {};
+  _.difference = function (array) {
+    //get arguments in array form
+    var args = [];
+    for (var i = 0; i < arguments.length; i++) {
+      args.push(arguments[i]);
+    }
+
+    var result = [];
+
+    _.each(array, function (value, idx) {
+      var addVal = true;
+      for (var i = 1; i < args.length; i++) {
+        _.each(args[i], function (compVal) {
+          if (value === compVal) {
+            addVal = false;
+          }
+        });
+      };
+      if (addVal) {
+        result.push(value);
+      }
+    });
+
+    return result;
+  };
 
   // Returns a function, that, when invoked, will only be triggered at most once
   // during a given window of time.  See the Underbar readme for extra details
