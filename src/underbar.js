@@ -573,5 +573,20 @@
   // on this function.
   //
   // Note: This is difficult! It may take a while to implement.
-  _.throttle = function (func, wait) {};
+  _.throttle = function (func, wait) {
+    var called = false;
+    var lastCalledAt;
+
+    return function () {
+      if (!called) {
+        called = true;
+        lastCalledAt = Date.now();
+        return func.apply(this, arguments);
+      } else if (called) {
+        setTimeout(function () {
+          called = false;
+        }, lastCalledAt + wait);
+      }
+    };
+  };
 }());
