@@ -551,7 +551,7 @@
 
     var result = [];
 
-    _.each(array, function (value, idx) {
+    _.each(array, function (value) {
       var addVal = true;
       for (var i = 1; i < args.length; i++) {
         _.each(args[i], function (compVal) {
@@ -559,7 +559,7 @@
             addVal = false;
           }
         });
-      };
+      }
       if (addVal) {
         result.push(value);
       }
